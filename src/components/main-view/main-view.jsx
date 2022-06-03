@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 
+import { LoginView } from "../login-view/login-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
@@ -10,6 +11,7 @@ class MainView extends React.Component {
     this.state = {
       movies: [],
       selectedMovie: null,
+      user: null,
     };
   }
 
@@ -26,14 +28,30 @@ class MainView extends React.Component {
       });
   }
 
+  /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(newSelectedMovie) {
     this.setState({
       selectedMovie: newSelectedMovie,
     });
   }
 
+  /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
+
+  onLoggedIn(user) {
+    this.setState({
+      user,
+    });
+  }
+
   render() {
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user } = this.state;
+
+    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
+
+    if (!user)
+      return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
+
+    //Before the movies have been loaded:
 
     //Uncomment this line only if use the code option without ternary operator:
     // if (selectedMovie) return <MovieView movie={selectedMovie} />;
@@ -42,6 +60,7 @@ class MainView extends React.Component {
 
     return (
       <div className="main-view">
+        {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
         {selectedMovie ? (
           <MovieView
             movie={selectedMovie}
