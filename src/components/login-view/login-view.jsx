@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 
 export function LoginView(props) {
   const [username, setUsername] = useState("");
@@ -13,26 +14,40 @@ export function LoginView(props) {
   };
 
   return (
-    <form>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
-    </form>
+    <Container>
+      <Row>
+        <Col>
+          <Card style={{ marginTop: 100 }}>
+            <Card.Body>
+              <Card.Title>Login</Card.Title>
+              <Form>
+                <Form.Group controlId="formUsername">
+                  <Form.Label>Username:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your username"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formPassword">
+                  <Form.Label>Password:</Form.Label>
+                  <Form.Control
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit" onClick={handleSubmit}>
+                  Submit
+                </Button>{" "}
+                <Button variant="success" href="#">
+                  Register
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
