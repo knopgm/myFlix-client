@@ -8,7 +8,6 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
     /* Send a request to the server for authentication */
     axios
       .post("https://myflix-api-gkm.herokuapp.com/login", {
@@ -20,7 +19,7 @@ export function LoginView(props) {
         props.onLoggedIn(data);
       })
       .catch((e) => {
-        console.log("no such user", e.response.request._response);
+        console.log("no such user");
       });
   };
 

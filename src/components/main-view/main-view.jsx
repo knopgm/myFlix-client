@@ -19,35 +19,6 @@ class MainView extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   axios
-  //     .get("https://myflix-api-gkm.herokuapp.com/movies")
-  //     .then((response) => {
-  //       this.setState({
-  //         movies: response.data,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  getMovies(token) {
-    axios
-      .get("https://myflix-api-gkm.herokuapp.com/movies", {
-        headers: { Authorization: `Bearer${token}` },
-      })
-      .then((response) => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(newSelectedMovie) {
     this.setState({
@@ -64,8 +35,42 @@ class MainView extends React.Component {
     });
 
     localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
+    localStorage.setItem("user", authData.user.username);
     this.getMovies(authData.token);
+  }
+
+  getMovies(token) {
+    axios
+      .get("https://myflix-api-gkm.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        // Assign the result to the state
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  componentDidMount() {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem("user"),
+      });
+      this.getMovies(accessToken);
+    }
+  }
+
+  onLogoutClick() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.setState({
+      user: null,
+    });
   }
 
   render() {
@@ -86,6 +91,13 @@ class MainView extends React.Component {
     return (
       <div className="main-view">
         <Navbar />
+        <button
+          onClick={() => {
+            this.onLogoutClick();
+          }}
+        >
+          Logout
+        </button>
         {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
         <Row className="justify-content-md-center">
           {selectedMovie ? (
