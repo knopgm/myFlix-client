@@ -19,15 +19,31 @@ class MainView extends React.Component {
     };
   }
 
-  componentDidMount() {
+  // componentDidMount() {
+  //   axios
+  //     .get("https://myflix-api-gkm.herokuapp.com/movies")
+  //     .then((response) => {
+  //       this.setState({
+  //         movies: response.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
+  getMovies(token) {
     axios
-      .get("https://myflix-api-gkm.herokuapp.com/movies")
+      .get("https://myflix-api-gkm.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer${token}` },
+      })
       .then((response) => {
+        // Assign the result to the state
         this.setState({
           movies: response.data,
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -41,10 +57,15 @@ class MainView extends React.Component {
 
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
 
-  onLoggedIn(user) {
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user,
+      user: authData.user.username,
     });
+
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
   }
 
   render() {
@@ -78,9 +99,8 @@ class MainView extends React.Component {
             </Col>
           ) : (
             movies.map((movie) => (
-              <Col md={3}>
+              <Col md={3} key={movie._id}>
                 <MovieCard
-                  key={movie._id}
                   movie={movie}
                   onMovieClick={(newSelectedMovie) => {
                     this.setSelectedMovie(newSelectedMovie);
