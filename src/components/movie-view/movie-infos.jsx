@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import { useParams } from "react-router-dom";
 
 import { LoginView } from "../login-view/login-view";
-import { MovieView } from "../movie-view/movie-view";
+import { MovieView } from "./movie-view";
 
 export function MovieInfos({ user, movies, history, onLoggedIn }) {
   const urlParams = useParams();
