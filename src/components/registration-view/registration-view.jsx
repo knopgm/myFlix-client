@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import {
   Form,
@@ -136,6 +137,9 @@ export function RegistrationView(props) {
                   >
                     Register
                   </Button>
+                  <p>
+                    Already registered <Link to={"/"}>sign in</Link> here{" "}
+                  </p>
                 </Form>
               </Card.Body>
             </Card>

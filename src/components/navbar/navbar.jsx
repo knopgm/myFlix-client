@@ -1,12 +1,7 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
-export function NavBar({ user }) {
-  const onLoggedOut = () => {
-    localStorage.clear();
-    window.open("/", "self");
-  };
-
+export function NavBar({ user, onLoggedOut }) {
   const isAuth = () => {
     if (typeof window == "undefined") {
       return false;
