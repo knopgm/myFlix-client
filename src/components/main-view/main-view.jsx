@@ -8,6 +8,7 @@ import { LoginView } from "../login-view/login-view";
 import { NavBar } from "../navbar/navbar";
 import { Movies } from "../route-elements/movies";
 import { MovieInfos } from "../route-elements/movie-infos";
+import { RegistrationView } from "../registration-view/registration-view";
 
 class MainView extends React.Component {
   constructor() {
@@ -107,6 +108,7 @@ class MainView extends React.Component {
               />
             }
           />
+          <Route path="/register" element={<RegistrationView />} />
         </Routes>
       </BrowserRouter>
     );
