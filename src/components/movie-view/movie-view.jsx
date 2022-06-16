@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { ListGroup } from "react-bootstrap";
 
+import { Link } from "react-router-dom";
+
 export class MovieView extends React.Component {
   keypressCallback(event) {
     console.log(event.key);
@@ -19,22 +21,28 @@ export class MovieView extends React.Component {
     const { movie, onBackClick } = this.props;
     return (
       <Card>
-        <Card.Img variant="top" src={movie.imagePath} />
+        <Card.Img variant="top" src={movie.imageUrl} />
         <Card.Body>
           <Card.Title>{movie.title}</Card.Title>
           <ListGroup variant="flush">
             <ListGroup.Item>Description: {movie.description}</ListGroup.Item>
             <ListGroup.Item>
-              Genre: {movie.genre.name}
+              <Link to={`/genres/${movie.genre.name}`}>
+                <Button variant="link">Genre</Button>
+              </Link>
+              {movie.genre.name}
               <Card.Text> Description: {movie.genre.description}</Card.Text>
             </ListGroup.Item>
             <ListGroup.Item>
-              Director: {movie.director.name}
+              <Link to={`/directors/${movie.director.name}`}>
+                <Button variant="link">Director</Button>
+              </Link>
+              {movie.director.name}
               <Card.Text> Bio: {movie.director.bio}</Card.Text>
             </ListGroup.Item>
           </ListGroup>
 
-          <Button onClick={() => onBackClick(null)}>Back</Button>
+          <Button onClick={() => onBackClick()}>Back</Button>
         </Card.Body>
       </Card>
     );
@@ -45,7 +53,7 @@ MovieView.propTypes = {
   movie: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    imagePath: PropTypes.string,
+    imageUrl: PropTypes.string,
     genre: PropTypes.shape({
       name: PropTypes.string,
       description: PropTypes.string,
