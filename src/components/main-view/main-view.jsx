@@ -97,7 +97,10 @@ class MainView extends React.Component {
             }
           />
           <Route path="/register" element={<RegistrationView />} />
-          <Route path={`/users/${user}`} element={<ProfileView />} />
+          <Route
+            path={`/users/${user}`}
+            element={<ProfileView movies={movies} />}
+          />
         </Routes>
       </BrowserRouter>
     );
