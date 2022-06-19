@@ -3,6 +3,7 @@ import React from "react";
 export function UpdateUser() {
   return (
     <Form className="profile-form">
+      <h4>Update</h4>
       <Form.Group controlId="formUsername">
         <Form.Label>Username:</Form.Label>
         <Form.Control

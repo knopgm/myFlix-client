@@ -1,13 +1,12 @@
 import React from "react";
-import { Card, ListGroup } from "react-bootstrap";
 
-export function UserInfo({ email, name }) {
+export function UserInfo({ username, email }) {
+  // console.log(userData);
   return (
-    <Card>
-      <ListGroup>
-        <List.Item>User: {name}</List.Item>
-        <List.Item>Email: {email}</List.Item>
-      </ListGroup>
-    </Card>
+    <>
+      <h4>Your Infos</h4>
+      <p>Name: {username}</p>
+      <p>e-mail: {email}</p>
+    </>
   );
 }
