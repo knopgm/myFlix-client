@@ -9,6 +9,8 @@ import { Movies } from "../movie-card/movies";
 import { MovieInfos } from "../movie-view/movie-infos";
 import { RegistrationView } from "../registration-view/registration-view";
 import { ProfileView } from "../profile-view/profile-view";
+import { GenreView } from "../genre-view/genre-view";
+import { DirectorView } from "../director-view/director-view";
 
 class MainView extends React.Component {
   constructor() {
@@ -66,6 +68,7 @@ class MainView extends React.Component {
 
   render() {
     const { movies, user } = this.state;
+    // console.log(genre);
 
     return (
       <BrowserRouter>
@@ -100,6 +103,18 @@ class MainView extends React.Component {
           <Route
             path={`/users/${user}`}
             element={<ProfileView movies={movies} />}
+          />
+          <Route
+            path="/genre/:name"
+            element={
+              <GenreView onGoBackButtonClick={() => window.history.back()} />
+            }
+          />
+          <Route
+            path="/directors/:name"
+            element={
+              <DirectorView onGoBackButtonClick={() => window.history.back()} />
+            }
           />
         </Routes>
       </BrowserRouter>
