@@ -27,7 +27,7 @@ export class MovieView extends React.Component {
           <ListGroup variant="flush">
             <ListGroup.Item>Description: {movie.description}</ListGroup.Item>
             <ListGroup.Item>
-              <Link to={`/genres/${movie.genre.name}`}>
+              <Link to={`/genre/${movie.genre.name}`}>
                 <Button variant="link">Genre</Button>
               </Link>
               {movie.genre.name}
