@@ -18,7 +18,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, onBackClick } = this.props;
+    const { movie, onBackClick, addToFavMovies } = this.props;
     return (
       <Card>
         <Card.Img variant="top" src={movie.imageUrl} />
@@ -43,6 +43,8 @@ export class MovieView extends React.Component {
           </ListGroup>
 
           <Button onClick={() => onBackClick()}>Back</Button>
+          {" ---  "}
+          <Button onClick={() => addToFavMovies()}>Favorite</Button>
         </Card.Body>
       </Card>
     );

@@ -14,20 +14,22 @@ export class ProfileView extends React.Component {
   }
 
   componentDidMount() {
-    const accessToken = localStorage.getItem("token");
-
-    if (accessToken !== null) {
-      const username = localStorage.getItem("user");
-      this.getUserByUsername(accessToken, username);
-    }
+    this.getUserByUsername();
   }
 
-  getUserByUsername(token, username) {
+  getUserByUsername() {
+    const accessToken = localStorage.getItem("token");
+    const username = localStorage.getItem("user");
+
+    if (!accessToken || !username) {
+      return;
+    }
+
     const url = `https://myflix-api-gkm.herokuapp.com/users/${username}`;
 
     axios
       .get(url, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
         // Assign the result to the state
@@ -70,6 +72,10 @@ export class ProfileView extends React.Component {
             <FavoriteMovies
               favoriteMoviesList={userData.favoriteMovies}
               movies={movies}
+              username={userData.username}
+              onFavoriteMovieRemoved={() => {
+                this.getUserByUsername();
+              }}
             />
           </Col>
         </Row>
