@@ -1,14 +1,17 @@
 import React from "react";
-import "./index.scss";
+import { createRoot } from "react-dom/client";
 import ReactDOM from "react-dom";
 import MainView from "./components/main-view/main-view";
 import Container from "react-bootstrap/Container";
+import "./index.scss";
 
 //Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {
     return (
-      <Container>
+      <Container
+      // style={{ display: flex, flexDirection: column, alignItems: center }}
+      >
         <MainView />
       </Container>
     );
@@ -19,4 +22,5 @@ class MyFlixApplication extends React.Component {
 const container = document.getElementById("app-container");
 
 //Tells React to render your app in the root DOM element
-ReactDOM.render(React.createElement(MyFlixApplication), container);
+const root = createRoot(container);
+root.render(<MyFlixApplication />);

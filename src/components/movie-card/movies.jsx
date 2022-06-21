@@ -18,7 +18,7 @@ export function Movies({ user, movies, onLoggedIn }) {
   return (
     <Row>
       {movies.map((m) => (
-        <Col md={4} key={m._id}>
+        <Col md={4} key={m._id} style={{ marginBottom: "20px" }}>
           <MovieCard movie={m} />
         </Col>
       ))}

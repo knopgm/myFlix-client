@@ -1,6 +1,8 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
+import "./navbar.scss";
+
 export function NavBar({ user, onLoggedOut }) {
   const isAuth = () => {
     if (typeof window == "undefined") {
@@ -20,6 +22,7 @@ export function NavBar({ user, onLoggedOut }) {
       bg="light"
       expand="lg"
       variant="light"
+      // style={{ width: inherit }}
     >
       <Container>
         <Navbar.Brand className="navbar-logo" href="/">
