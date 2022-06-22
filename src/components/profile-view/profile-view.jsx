@@ -3,7 +3,7 @@ import { Card, Container, Row, Col } from "react-bootstrap";
 import { UserInfo } from "./user-info";
 import axios from "axios";
 import { FavoriteMovies } from "./favorite-movies";
-// import { UpdateUser } from "./update-user";
+import { UpdateUser } from "./update-user";
 
 export class ProfileView extends React.Component {
   constructor() {
@@ -57,14 +57,25 @@ export class ProfileView extends React.Component {
           <Col xs={12} sm={4}>
             <Card>
               <Card.Body>
-                <UserInfo username={userData.username} email={userData.email} />
+                <UserInfo
+                  username={userData.username}
+                  email={userData.email}
+                  birthday={userData.birthday}
+                />
               </Card.Body>
             </Card>
           </Col>
           <Col xs={12} sm={8}>
             <Card>
               <Card.Body>
-                <UserInfo username={userData.username} email={userData.email} />
+                <UpdateUser
+                  username={userData.username}
+                  email={userData.email}
+                  password={userData.password}
+                  onUserUpdated={() => {
+                    this.getUserByUsername();
+                  }}
+                />
               </Card.Body>
             </Card>
           </Col>
