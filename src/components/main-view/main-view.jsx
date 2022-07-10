@@ -1,22 +1,38 @@
 import React from "react";
 import axios from "axios";
 
+import { connect } from "react-redux";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// #0
+import { setMovies } from "../../actions/actions";
+// we haven't written this one yet
+
+/* 
+  #1 The rest of components import statements but without the MovieCard's 
+  because it will be imported and used in the MoviesList component rather
+  than in here. 
+*/
+import MoviesList from "../movies-list/movies-list";
 
 import { LoginView } from "../login-view/login-view";
 import { NavBar } from "../navbar/navbar";
-import { Movies } from "../movie-card/movies";
+
 import { MovieInfos } from "../movie-view/movie-infos";
 import { RegistrationView } from "../registration-view/registration-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
 
+// #2 export keyword removed from here
 class MainView extends React.Component {
   constructor() {
     super();
+
+    // #3 movies state removed from here
     this.state = {
-      movies: [],
+      // movies: [],
       // selectedMovie: null,
       user: null,
     };
@@ -39,9 +55,12 @@ class MainView extends React.Component {
       })
       .then((response) => {
         // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
+        // this.setState({
+        //   movies: response.data,
+        // });
+
+        // #4
+        this.props.setMovies(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -59,6 +78,7 @@ class MainView extends React.Component {
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.username);
     this.getMovies(authData.token);
+    window.open("/", "_self");
   }
 
   onLoggedOut() {
@@ -67,7 +87,10 @@ class MainView extends React.Component {
   }
 
   render() {
-    const { movies, user } = this.state;
+    // #5 movies is extracted from this.props rather than from the this.state
+    const { movies } = this.props;
+    const { user } = this.state;
+    // const { movies } = this.state;
     // console.log(genre);
 
     return (
@@ -82,8 +105,9 @@ class MainView extends React.Component {
             exact
             path="/"
             element={
-              <Movies
+              <MoviesList
                 user={user}
+                // #6
                 movies={movies}
                 onLoggedIn={(user) => this.onLoggedIn(user)}
               />
@@ -122,4 +146,10 @@ class MainView extends React.Component {
   }
 }
 
-export default MainView;
+// #7
+let mapStateToProps = (state) => {
+  return { movies: state.movies };
+};
+
+// #8
+export default connect(mapStateToProps, { setMovies })(MainView);
