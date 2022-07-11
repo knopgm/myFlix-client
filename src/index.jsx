@@ -8,20 +8,25 @@ import moviesApp from "./components/reducers/reducers";
 import { devToolsEnhancer } from "redux-devtools-extension";
 
 import MainView from "./components/main-view/main-view";
+import { ErrorBoundary } from "./components/error-boundary/error-boundary";
 
 import "./index.scss";
+const username = localStorage.getItem("user");
+const user = username ? { username } : null;
 
-const store = createStore(moviesApp, devToolsEnhancer());
+const store = createStore(moviesApp, { user: user }, devToolsEnhancer());
 
 //Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <Container>
-          <MainView />
-        </Container>
-      </Provider>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <Container>
+            <MainView />
+          </Container>
+        </Provider>
+      </ErrorBoundary>
     );
   }
 }
