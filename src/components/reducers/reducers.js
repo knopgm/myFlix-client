@@ -22,10 +22,10 @@ function movies(state = [], action) {
   }
 }
 
-function user(state = "", action) {
+function user(state = null, action) {
   switch (action.type) {
     case SET_USER:
-      console.log("SET_USER reducer reached");
+      console.log("SET_USER reducer reached", { action });
       return action.value;
     default:
       return state;

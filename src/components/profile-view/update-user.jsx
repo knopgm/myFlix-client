@@ -4,22 +4,19 @@ import { Link } from "react-router-dom";
 
 import { Form, Button } from "react-bootstrap";
 
-export function UpdateUser({ onUserUpdated }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+export function UpdateUser(props) {
+  const { onUserUpdated } = props;
 
-  const [usernameErr, setUsernameErr] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(props.email);
+  const [birthday, setBirthday] = useState(props.birthday);
+
   const [passwordErr, setPasswordErr] = useState("");
   const [emailErr, setEmailErr] = useState("");
 
   const validate = () => {
     let isReq = true;
-    if (!username) {
-      setUsernameErr("Username is required");
-      isReq = false;
-    }
+
     if (!password) {
       setPasswordErr("Password is required");
       isReq = false;
@@ -35,10 +32,7 @@ export function UpdateUser({ onUserUpdated }) {
   };
 
   function emptyUpdateStates() {
-    setUsername("");
-    setPassword("");
-    setEmail("");
-    setBirthday("");
+    window.open(`/users/${props.username}`, "_self");
   }
 
   function handleSubmitedUpdate(e) {
@@ -47,15 +41,14 @@ export function UpdateUser({ onUserUpdated }) {
     e.preventDefault();
     const isReq = validate();
     const accessToken = localStorage.getItem("token");
-    const url = `https://myflix-api-gkm.herokuapp.com/users/${username}`;
+    const url = `https://myflix-api-gkm.herokuapp.com/users/${props.username}`;
     if (isReq) {
-      console.log(username, password, email, birthday);
+      console.log(password, email, birthday);
       /* Send a request to the server for registration */
       axios
         .put(
           url,
           {
-            username: username,
             password: password,
             email: email,
             birthday: birthday,
@@ -78,17 +71,6 @@ export function UpdateUser({ onUserUpdated }) {
   return (
     <Form className="profile-form">
       <h4>Update</h4>
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control
-          type="text"
-          value={username}
-          // defaultValue={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder={"Type your username"}
-        />
-        {usernameErr && <p>{usernameErr}</p>}
-      </Form.Group>
 
       <Form.Group controlId="formPassword">
         <Form.Label>Password:</Form.Label>
