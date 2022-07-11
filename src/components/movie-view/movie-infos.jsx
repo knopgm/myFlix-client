@@ -6,8 +6,10 @@ import { useParams } from "react-router-dom";
 
 import { LoginView } from "../login-view/login-view";
 import { MovieView } from "./movie-view";
+import { connect } from "react-redux";
 
-export function MovieInfos({ user, movies, history, onLoggedIn }) {
+function MovieInfos(props) {
+  const { user, movies, onLoggedIn } = props;
   const urlParams = useParams();
 
   const findMovie = (movies) => {
@@ -25,7 +27,7 @@ export function MovieInfos({ user, movies, history, onLoggedIn }) {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    const url = `https://myflix-api-gkm.herokuapp.com/users/${user}/movies/${movie._id}`;
+    const url = `https://myflix-api-gkm.herokuapp.com/users/${user.username}/movies/${movie._id}`;
     axios
       .post(url, {}, { headers: { Authorization: `Bearer ${accessToken}` } })
       .then((response) => {
@@ -60,3 +62,10 @@ export function MovieInfos({ user, movies, history, onLoggedIn }) {
     </Col>
   );
 }
+
+const mapStateToProps = (storeState) => {
+  const { movies, user } = storeState;
+  return { movies, user };
+};
+
+export default connect(mapStateToProps)(MovieInfos);

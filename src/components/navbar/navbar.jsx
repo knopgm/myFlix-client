@@ -1,9 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
 import "./navbar.scss";
 
-export function NavBar({ user, onLoggedOut }) {
+export function NavBar(props) {
+  const { user, onLoggedOut } = props;
+
   const isAuth = () => {
     if (typeof window == "undefined") {
       return false;
@@ -31,7 +34,11 @@ export function NavBar({ user, onLoggedOut }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            {isAuth() && <Nav.Link href={`/users/${user}`}>{user}</Nav.Link>}
+            {isAuth() && (
+              <Nav.Link href={`/users/${user.username}`}>
+                {user.username}
+              </Nav.Link>
+            )}
             {isAuth() && (
               <Button
                 variant="link"
@@ -42,7 +49,7 @@ export function NavBar({ user, onLoggedOut }) {
                 Logout
               </Button>
             )}
-            {!isAuth() && <Nav.Link href="/">Login</Nav.Link>}
+            {!isAuth() && <Nav.Link href="/login">Login</Nav.Link>}
             {!isAuth() && <Nav.Link href="/register">Sign-up</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
@@ -50,3 +57,9 @@ export function NavBar({ user, onLoggedOut }) {
     </Navbar>
   );
 }
+// const mapStateToProps = (state) => {
+//   const { user } = state;
+//   return { user };
+// };
+
+// export default connect(mapStateToProps)(NavBar);

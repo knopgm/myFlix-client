@@ -3,10 +3,10 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // #0
-import { setMovies } from "../../actions/actions";
+import { setMovies, setUser } from "../../actions/actions";
 // we haven't written this one yet
 
 /* 
@@ -19,9 +19,10 @@ import MoviesList from "../movies-list/movies-list";
 import { LoginView } from "../login-view/login-view";
 import { NavBar } from "../navbar/navbar";
 
-import { MovieInfos } from "../movie-view/movie-infos";
+import MovieInfos from "../movie-view/movie-infos";
 import { RegistrationView } from "../registration-view/registration-view";
-import { ProfileView } from "../profile-view/profile-view";
+import ProfileView from "../profile-view/profile-view";
+
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
 
@@ -34,16 +35,16 @@ class MainView extends React.Component {
     this.state = {
       // movies: [],
       // selectedMovie: null,
-      user: null,
+      // user: null,
     };
   }
 
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem("user"),
-      });
+      // this.setState({
+      //   user: localStorage.getItem("user"),
+      // });
       this.getMovies(accessToken);
     }
   }
@@ -71,9 +72,10 @@ class MainView extends React.Component {
 
   onLoggedIn(authData) {
     console.log(authData);
-    this.setState({
-      user: authData.user.username,
-    });
+    // this.setState({
+    //   user: authData.user.username,
+    // });
+    this.props.setUser(authData.user);
 
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.username);
@@ -88,8 +90,8 @@ class MainView extends React.Component {
 
   render() {
     // #5 movies is extracted from this.props rather than from the this.state
-    const { movies } = this.props;
-    const { user } = this.state;
+    const { movies, user, auth } = this.props;
+    // const { user } = this.state;
     // const { movies } = this.state;
     // console.log(genre);
 
@@ -101,33 +103,22 @@ class MainView extends React.Component {
             path="/login"
             element={<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />}
           />
+
           <Route
             exact
             path="/"
             element={
-              <MoviesList
-                user={user}
-                // #6
-                movies={movies}
-                onLoggedIn={(user) => this.onLoggedIn(user)}
-              />
+              <MoviesList onLoggedIn={(user) => this.onLoggedIn(user)} />
             }
           />
           <Route
             path="/movies/:id"
             element={
-              <MovieInfos
-                user={user}
-                movies={movies}
-                onLoggedIn={(user) => this.onLoggedIn(user)}
-              />
+              <MovieInfos onLoggedIn={(user) => this.onLoggedIn(user)} />
             }
           />
           <Route path="/register" element={<RegistrationView />} />
-          <Route
-            path={`/users/${user}`}
-            element={<ProfileView movies={movies} />}
-          />
+          <Route path={`/users/${user.username}`} element={<ProfileView />} />
           <Route
             path="/genre/:name"
             element={
@@ -148,8 +139,12 @@ class MainView extends React.Component {
 
 // #7
 let mapStateToProps = (state) => {
-  return { movies: state.movies };
+  return {
+    movies: state.movies,
+    user: state.user,
+    auth: state.auth,
+  };
 };
 
 // #8
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);

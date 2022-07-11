@@ -1,16 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { UserInfo } from "./user-info";
 import axios from "axios";
 import { FavoriteMovies } from "./favorite-movies";
 import { UpdateUser } from "./update-user";
+import { setUser } from "../../actions/actions";
 
-export class ProfileView extends React.Component {
+class ProfileView extends React.Component {
   constructor() {
     super();
-    this.state = {
-      userData: null,
-    };
+    // this.state = {
+    //   userData: null,
+    // };
   }
 
   componentDidMount() {
@@ -33,9 +35,10 @@ export class ProfileView extends React.Component {
       })
       .then((response) => {
         // Assign the result to the state
-        this.setState({
-          userData: response.data,
-        });
+        // this.setState({
+        //   userData: response.data,
+        // });
+        this.props.setUser(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -43,12 +46,10 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { userData } = this.state;
-    const { movies } = this.props;
-    // console.log(userData, movies);
+    const { movies, user } = this.props;
 
-    if (userData === null) {
-      return <div>usuario nao existe</div>;
+    if (!user || !user._id) {
+      return null;
     }
 
     return (
@@ -58,9 +59,9 @@ export class ProfileView extends React.Component {
             <Card>
               <Card.Body>
                 <UserInfo
-                  username={userData.username}
-                  email={userData.email}
-                  birthday={userData.birthday}
+                  username={user.username}
+                  email={user.email}
+                  birthday={user.birthday}
                 />
               </Card.Body>
             </Card>
@@ -69,9 +70,9 @@ export class ProfileView extends React.Component {
             <Card>
               <Card.Body>
                 <UpdateUser
-                  username={userData.username}
-                  email={userData.email}
-                  password={userData.password}
+                  username={user.username}
+                  email={user.email}
+                  birthday={user.birthday}
                   onUserUpdated={() => {
                     this.getUserByUsername();
                   }}
@@ -81,9 +82,9 @@ export class ProfileView extends React.Component {
           </Col>
           <Col>
             <FavoriteMovies
-              favoriteMoviesList={userData.favoriteMovies}
+              favoriteMoviesList={user.favoriteMovies}
               movies={movies}
-              username={userData.username}
+              username={user.username}
               onFavoriteMovieRemoved={() => {
                 this.getUserByUsername();
               }}
@@ -94,3 +95,11 @@ export class ProfileView extends React.Component {
     );
   }
 }
+let mapStateToProps = (state) => {
+  return {
+    movies: state.movies,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, { setUser })(ProfileView);
