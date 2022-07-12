@@ -9,8 +9,6 @@ export function UserInfo({ username, email, birthday }) {
   };
 
   const handlingDeletedUser = (username) => {
-    console.log("deleting");
-
     const accessToken = localStorage.getItem("token");
 
     if (!accessToken) {

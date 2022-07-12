@@ -36,14 +36,11 @@ export function UpdateUser(props) {
   }
 
   function handleSubmitedUpdate(e) {
-    console.log("handling submited update");
-
     e.preventDefault();
     const isReq = validate();
     const accessToken = localStorage.getItem("token");
     const url = `https://myflix-api-gkm.herokuapp.com/users/${props.username}`;
     if (isReq) {
-      console.log(password, email, birthday);
       /* Send a request to the server for registration */
       axios
         .put(

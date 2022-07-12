@@ -1,8 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-
-import "./navbar.scss";
 
 export function NavBar(props) {
   const { user, onLoggedOut } = props;
@@ -25,7 +22,6 @@ export function NavBar(props) {
       bg="light"
       expand="lg"
       variant="light"
-      // style={{ width: inherit }}
     >
       <Container>
         <Navbar.Brand className="navbar-logo" href="/">
@@ -57,9 +53,3 @@ export function NavBar(props) {
     </Navbar>
   );
 }
-// const mapStateToProps = (state) => {
-//   const { user } = state;
-//   return { user };
-// };
-
-// export default connect(mapStateToProps)(NavBar);
