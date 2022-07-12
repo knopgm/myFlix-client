@@ -55,7 +55,9 @@ export function FavoriteMovies({
         </Col>
       </Row>
       <Row>
-        {filteredMovies.map(({ _id, imageUrl, title }) => {
+        {filteredMovies.map((movie) => {
+          const { _id, imageUrl, title } = movie;
+
           return (
             <Col
               key={_id}
@@ -65,7 +67,7 @@ export function FavoriteMovies({
               style={{ marginBottom: "20px" }}
             >
               <Figure>
-                <Link to={`/movies/${movies._id}`}>
+                <Link to={`/movies/${_id}`}>
                   <Figure.Image variant="top" src={imageUrl} alt={title} />
                   <Figure.Caption>{title}</Figure.Caption>
                 </Link>
