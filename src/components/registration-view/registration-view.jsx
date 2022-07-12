@@ -53,7 +53,6 @@ export function RegistrationView(props) {
     e.preventDefault();
     const isReq = validate();
     if (isReq) {
-      console.log(username, password, email, birthday);
       /* Send a request to the server for registration */
       axios
         .post("https://myflix-api-gkm.herokuapp.com/users", {
@@ -64,7 +63,7 @@ export function RegistrationView(props) {
         })
         .then((response) => {
           const data = response.data;
-          window.open("/", "_self"); // the second argument '_self' is necessary so that the page will open in the current tab
+          window.open("/login", "_self"); // the second argument '_self' is necessary so that the page will open in the current tab
         })
         .catch((e) => {
           console.log("error registering the user");
@@ -130,6 +129,7 @@ export function RegistrationView(props) {
                     />
                   </Form.Group>
                   <Button
+                    style={{ marginTop: "18px", marginBottom: "5px" }}
                     variant="primary"
                     type="submit"
                     onClick={handleRegister}
@@ -137,7 +137,7 @@ export function RegistrationView(props) {
                     Register
                   </Button>
                   <p>
-                    Already registered <Link to={"/"}>sign in</Link> here{" "}
+                    Already registered <Link to={"/"}>Login</Link> here{" "}
                   </p>
                 </Form>
               </Card.Body>

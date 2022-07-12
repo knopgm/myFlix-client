@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // #0
 import { setMovies, setUser } from "../../actions/actions";
@@ -32,19 +32,16 @@ class MainView extends React.Component {
     super();
 
     // #3 movies state removed from here
-    this.state = {
-      // movies: [],
-      // selectedMovie: null,
-      // user: null,
-    };
+    // this.state = {
+    //   // movies: [],
+    //   // selectedMovie: null,
+    //   // user: null,
+    // };
   }
 
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
-      // this.setState({
-      //   user: localStorage.getItem("user"),
-      // });
       this.getMovies(accessToken);
     }
   }
@@ -60,7 +57,7 @@ class MainView extends React.Component {
         //   movies: response.data,
         // });
 
-        // #4
+        // #4 Assign the results to the state
         this.props.setMovies(response.data);
       })
       .catch(function (error) {
@@ -85,15 +82,16 @@ class MainView extends React.Component {
 
   onLoggedOut() {
     localStorage.clear();
-    window.open("/", "self");
+    window.open("/login", "_self");
   }
 
   render() {
     // #5 movies is extracted from this.props rather than from the this.state
-    const { movies, user, auth } = this.props;
+    const { user } = this.props;
     // const { user } = this.state;
     // const { movies } = this.state;
-    // console.log(genre);
+
+    const username = localStorage.getItem("user");
 
     return (
       <BrowserRouter>
@@ -118,7 +116,7 @@ class MainView extends React.Component {
             }
           />
           <Route path="/register" element={<RegistrationView />} />
-          <Route path={`/users/${user.username}`} element={<ProfileView />} />
+          <Route path={`/users/${username}`} element={<ProfileView />} />
           <Route
             path="/genre/:name"
             element={

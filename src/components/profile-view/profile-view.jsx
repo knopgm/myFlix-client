@@ -28,7 +28,7 @@ class ProfileView extends React.Component {
     }
 
     const url = `https://myflix-api-gkm.herokuapp.com/users/${username}`;
-    console.log(accessToken);
+
     axios
       .get(url, {
         headers: { Authorization: `Bearer ${accessToken}` },
