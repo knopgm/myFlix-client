@@ -3,7 +3,13 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 // #0
 import { setMovies, setUser } from "../../actions/actions";
@@ -99,40 +105,106 @@ class MainView extends React.Component {
         <Routes>
           <Route
             path="/login"
-            element={<LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />}
+            element={
+              <AlreadyLogged user={user}>
+                <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+              </AlreadyLogged>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AlreadyLogged user={user}>
+                <RegistrationView />
+              </AlreadyLogged>
+            }
           />
 
           <Route
             exact
             path="/"
             element={
-              <MoviesList onLoggedIn={(user) => this.onLoggedIn(user)} />
+              <RequireAuth user={user}>
+                <MoviesList onLoggedIn={(user) => this.onLoggedIn(user)} />
+              </RequireAuth>
             }
           />
+
           <Route
             path="/movies/:id"
             element={
-              <MovieInfos onLoggedIn={(user) => this.onLoggedIn(user)} />
+              <RequireAuth user={user}>
+                <MovieInfos onLoggedIn={(user) => this.onLoggedIn(user)} />
+              </RequireAuth>
             }
           />
-          <Route path="/register" element={<RegistrationView />} />
-          <Route path={`/users/${username}`} element={<ProfileView />} />
+
+          <Route
+            path={`/users/${username}`}
+            element={
+              <RequireAuth user={user}>
+                <ProfileView />
+              </RequireAuth>
+            }
+          />
+
           <Route
             path="/genre/:name"
             element={
-              <GenreView onGoBackButtonClick={() => window.history.back()} />
+              <RequireAuth user={user}>
+                <GenreView onGoBackButtonClick={() => window.history.back()} />
+              </RequireAuth>
             }
           />
+
           <Route
             path="/directors/:name"
             element={
-              <DirectorView onGoBackButtonClick={() => window.history.back()} />
+              <RequireAuth user={user}>
+                <DirectorView
+                  onGoBackButtonClick={() => window.history.back()}
+                />
+              </RequireAuth>
             }
           />
         </Routes>
       </BrowserRouter>
     );
   }
+}
+
+function RequireAuth({ user, children }) {
+  /**
+   * Reference: https://reactrouter.com/docs/en/v6/examples/auth
+   * 1. Verify if user is logged in
+   * 2. If user is not authenticated it navigates to /login if
+   *    * The current route is not a public route
+   * 3. If user is authenticated then render children
+   */
+
+  const location = useLocation();
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+function AlreadyLogged({ user, children }) {
+  /**
+   * Reference: https://reactrouter.com/docs/en/v6/examples/auth
+   * 1. Verify if user is logged in
+   * 2. If user is authenticated it navigates to / if
+   *    * The route is a public route
+   * 3. If user is not authenticated then render children from public route
+   */
+  const location = useLocation();
+
+  if (user) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+  return children;
 }
 
 // #7
