@@ -7,9 +7,10 @@ import { useParams } from "react-router-dom";
 import { LoginView } from "../login-view/login-view";
 import { MovieView } from "./movie-view";
 import { connect } from "react-redux";
+import { setMoviesList } from "../../actions/actions";
 
 function MovieInfos(props) {
-  const { user, movies, onLoggedIn } = props;
+  const { user, movies, moviesList, onLoggedIn } = props;
   const urlParams = useParams();
 
   const findMovie = (movies) => {
@@ -27,12 +28,17 @@ function MovieInfos(props) {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
+    if (moviesList.includes(movie)) {
+      console.log("already favorited movie");
+    }
+
     const url = `https://myflix-api-gkm.herokuapp.com/users/${user.username}/movies/${movie._id}`;
     axios
       .post(url, {}, { headers: { Authorization: `Bearer ${accessToken}` } })
       .then((response) => {
-        const data = response.data;
-        console.log(data);
+        // const data = response.data;
+        // console.log(data);
+        this.props.setMoviesList(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -64,8 +70,8 @@ function MovieInfos(props) {
 }
 
 const mapStateToProps = (storeState) => {
-  const { movies, user } = storeState;
-  return { movies, user };
+  const { movies, moviesList, user } = storeState;
+  return { movies, moviesList, user };
 };
 
-export default connect(mapStateToProps)(MovieInfos);
+export default connect(mapStateToProps, { setMoviesList })(MovieInfos);
