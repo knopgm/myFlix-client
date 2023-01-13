@@ -96,7 +96,7 @@ class MainView extends React.Component {
     const { user } = this.props;
     // const { user } = this.state;
     // const { movies } = this.state;
-
+    const accessToken = localStorage.getItem("token");
     const username = localStorage.getItem("user");
 
     return (
@@ -173,7 +173,7 @@ class MainView extends React.Component {
   }
 }
 
-function RequireAuth({ user, children }) {
+function RequireAuth({ user, accessToken, children }) {
   /**
    * Reference: https://reactrouter.com/docs/en/v6/examples/auth
    * 1. Verify if user is logged in
@@ -182,16 +182,17 @@ function RequireAuth({ user, children }) {
    * 3. If user is authenticated then render children
    */
 
+  console.log(accessToken, "test");
   const location = useLocation();
 
-  if (!user) {
+  if (!accessToken && !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
 }
 
-function AlreadyLogged({ user, children }) {
+function AlreadyLogged({ user, accessToken, children }) {
   /**
    * Reference: https://reactrouter.com/docs/en/v6/examples/auth
    * 1. Verify if user is logged in
@@ -201,7 +202,7 @@ function AlreadyLogged({ user, children }) {
    */
   const location = useLocation();
 
-  if (user) {
+  if (accessToken && user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   return children;
