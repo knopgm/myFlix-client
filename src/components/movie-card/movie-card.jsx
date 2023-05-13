@@ -1,29 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-
 import { Link } from "react-router-dom";
+
+import "./movie-card.css";
 
 export class MovieCard extends React.Component {
   render() {
     const { movie } = this.props;
     return (
-      <Card className="my-card">
-        <Card.Img variant="top" src={movie.imageUrl} />
-        <Card.Body style={{ height: "394px" }}>
-          <Card.Title>{movie.title}</Card.Title>
-          <Card.Text>{movie.description}</Card.Text>
-          <Button
-            variant="primary"
-            style={{ position: "absolute", bottom: 5, textAlign: "center" }}
-          >
-            <Link to={`/movies/${movie._id}`} style={{ color: "white" }}>
-              Open
-            </Link>
-          </Button>
-        </Card.Body>
-      </Card>
+      <Link to={`/movies/${movie._id}`} style={{ color: "white" }}>
+        <Card className="movie-card">
+          <Card.Img
+            className="movie-card__img"
+            variant="top"
+            src={movie.imageUrl}
+          />
+          <Card.ImgOverlay className="movie-card__overlay">
+            <Card.Title className="movie-card__title">{movie.title}</Card.Title>
+          </Card.ImgOverlay>
+        </Card>
+      </Link>
     );
   }
 }

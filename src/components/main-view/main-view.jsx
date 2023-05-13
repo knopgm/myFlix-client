@@ -121,7 +121,6 @@ class MainView extends React.Component {
           />
 
           <Route
-            exact
             path="/"
             element={
               <RequireAuth user={user}>
