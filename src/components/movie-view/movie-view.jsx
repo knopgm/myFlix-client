@@ -6,6 +6,8 @@ import { ListGroup } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
 
+import "./movie-view.css";
+
 export class MovieView extends React.Component {
   componentDidMount() {
     document.addEventListener("keypress", this.keypressCallback);
@@ -17,31 +19,42 @@ export class MovieView extends React.Component {
   render() {
     const { movie, onBackClick, addToFavMovies } = this.props;
     return (
-      <Card>
-        <Card.Img variant="top" src={movie.imageUrl} />
-        <Card.Body>
-          <Card.Title>{movie.title}</Card.Title>
-          <ListGroup variant="flush">
-            <ListGroup.Item>Description: {movie.description}</ListGroup.Item>
-            <ListGroup.Item>
-              <Link to={`/genre/${movie.genre.name}`}>
-                <Button variant="link">Genre</Button>
-              </Link>
-              {movie.genre.name}
-              <Card.Text> Description: {movie.genre.description}</Card.Text>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Link to={`/directors/${movie.director.name}`}>
-                <Button variant="link">Director</Button>
-              </Link>
-              {movie.director.name}
-              <Card.Text> Bio: {movie.director.bio}</Card.Text>
-            </ListGroup.Item>
-          </ListGroup>
+      <Card className="movie-view">
+        <Card.Img
+          className="movie-view__img"
+          variant="top"
+          src={movie.imageUrl}
+        />
 
-          <Button onClick={() => onBackClick()}>Back</Button>
-          {" ---  "}
-          <Button onClick={() => addToFavMovies()}>Favorite</Button>
+        <Card.Body className="movie-view__body">
+          <Card.Title className="movie-view__title">{movie.title}</Card.Title>
+          <Link className="movie-view__link" to={`/genre/${movie.genre.name}`}>
+            {movie.genre.name}
+          </Link>
+          <Card.Text className="movie-view__description">
+            Description: {movie.description}
+          </Card.Text>
+          <Link
+            className="movie-view__link"
+            to={`/directors/${movie.director.name}`}
+          >
+            Director: {movie.director.name}
+          </Link>
+
+          <ListGroup className="movie-view__body-buttons">
+            <Button
+              className="movie-view__body-button"
+              onClick={() => addToFavMovies()}
+            >
+              Favorite
+            </Button>
+            <Button
+              className="movie-view__body-button"
+              onClick={() => onBackClick()}
+            >
+              Back
+            </Button>
+          </ListGroup>
         </Card.Body>
       </Card>
     );
