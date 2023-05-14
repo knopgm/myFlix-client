@@ -7,6 +7,8 @@ import { FavoriteMovies } from "./favorite-movies";
 import { UpdateUser } from "./update-user";
 import { setUser } from "../../actions/actions";
 
+import "./profile-view.css";
+
 class ProfileView extends React.Component {
   constructor() {
     super();

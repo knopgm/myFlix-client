@@ -1,6 +1,8 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 
+import "./navbar.css";
+
 export function NavBar(props) {
   const { user, onLoggedOut } = props;
 
@@ -19,9 +21,9 @@ export function NavBar(props) {
     <Navbar
       className="main-nav"
       sticky="top"
-      bg="light"
+      bg="dark"
       expand="lg"
-      variant="light"
+      variant="dark"
     >
       <Container>
         <Navbar.Brand className="navbar-logo" href="/">
@@ -31,7 +33,10 @@ export function NavBar(props) {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
             {isAuth() && (
-              <Nav.Link href={`/users/${user.username}`}>
+              <Nav.Link
+                className="navbar-username"
+                href={`/users/${user.username}`}
+              >
                 {user.username}
               </Nav.Link>
             )}

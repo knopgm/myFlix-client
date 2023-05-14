@@ -3,6 +3,8 @@ import axios from "axios";
 import { Figure, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import "./favorite-movies.css";
+
 export function FavoriteMovies({
   favoriteMoviesList,
   movies,
@@ -49,31 +51,43 @@ export function FavoriteMovies({
 
   return (
     <>
-      <Row className="my-card">
+      <Row className="favorite-movies">
         <Col xs={12}>
           <h2>Favorite Movies</h2>
         </Col>
       </Row>
-      <Row>
+      <Row className="favorite-movies__list">
         {filteredMovies.map((movie) => {
           const { _id, imageUrl, title } = movie;
 
           return (
             <Col
+              className="favorite-movie__card"
               key={_id}
               xs={12}
               md={6}
               lg={4}
               style={{ marginBottom: "20px" }}
             >
-              <Figure>
-                <Link to={`/movies/${_id}`}>
-                  <Figure.Image variant="top" src={imageUrl} alt={title} />
-                  <Figure.Caption>{title}</Figure.Caption>
+              <Figure className="favorite-movie__img-card">
+                <Link
+                  className="favorite-movie__img-title-wrapper"
+                  to={`/movies/${_id}`}
+                >
+                  <Figure.Image
+                    className="favorite-movie__img"
+                    variant="top"
+                    src={imageUrl}
+                    alt={title}
+                  />
+                  <Figure.Caption className="favorite-movie__title">
+                    {title}
+                  </Figure.Caption>
                 </Link>
               </Figure>
               <Link to={`/users/${username}`}>
                 <Button
+                  className="favorite-movie__btn-remove"
                   variant="secondary"
                   onClick={() => removeFav(_id, username)}
                 >
