@@ -1,12 +1,11 @@
-import React from "react";
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import React, { useMemo } from "react";
+import { Navbar, Container, Nav, Button, NavDropdown } from "react-bootstrap";
 
 import "./navbar.css";
 
 export function NavBar(props) {
   const { user, onLoggedOut } = props;
-
-  const isAuth = () => {
+  const isAuth = useMemo(() => {
     if (typeof window == "undefined") {
       return false;
     }
@@ -15,7 +14,7 @@ export function NavBar(props) {
     } else {
       return false;
     }
-  };
+  }, []);
 
   return (
     <Navbar
@@ -30,9 +29,9 @@ export function NavBar(props) {
           My Flix
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ml-auto">
-            {isAuth() && (
+        <Navbar.Collapse id="navbarScroll">
+          <Nav className="justify-content-end flex-grow-1" navbarScroll>
+            {isAuth && (
               <Nav.Link
                 className="navbar-username"
                 href={`/users/${user.username}`}
@@ -40,18 +39,13 @@ export function NavBar(props) {
                 {user.username}
               </Nav.Link>
             )}
-            {isAuth() && (
-              <Button
-                variant="link"
-                onClick={() => {
-                  onLoggedOut();
-                }}
-              >
+            {isAuth && (
+              <Button variant="link" onClick={() => onLoggedOut()}>
                 Logout
               </Button>
             )}
-            {!isAuth() && <Nav.Link href="/login">Login</Nav.Link>}
-            {!isAuth() && <Nav.Link href="/register">Sign-up</Nav.Link>}
+            {!isAuth && <Nav.Link href="/login">Login</Nav.Link>}
+            {!isAuth && <Nav.Link href="/register">Sign-up</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>

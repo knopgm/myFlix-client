@@ -20,17 +20,16 @@ import { setMovies, setUser } from "../../actions/actions";
   because it will be imported and used in the MoviesList component rather
   than in here. 
 */
+import RequireAuth from "../require-auth/require-auth";
 import MoviesList from "../movies-list/movies-list";
-
 import { LoginView } from "../login-view/login-view";
 import { NavBar } from "../navbar/navbar";
-
 import MovieInfos from "../movie-view/movie-infos";
 import { RegistrationView } from "../registration-view/registration-view";
 import ProfileView from "../profile-view/profile-view";
-
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
+import { Container } from "react-bootstrap";
 
 // #2 export keyword removed from here
 class MainView extends React.Component {
@@ -100,95 +99,83 @@ class MainView extends React.Component {
     const username = localStorage.getItem("user");
 
     return (
-      <BrowserRouter>
+      <>
         <NavBar user={user} onLoggedOut={() => this.onLoggedOut()} />
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <AlreadyLogged user={user}>
-                <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-              </AlreadyLogged>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <AlreadyLogged user={user}>
-                <RegistrationView />
-              </AlreadyLogged>
-            }
-          />
+        <Container>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/login"
+                element={
+                  <AlreadyLogged user={user}>
+                    <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  </AlreadyLogged>
+                }
+              />
 
-          <Route
-            path="/"
-            element={
-              <RequireAuth user={user}>
-                <MoviesList onLoggedIn={(user) => this.onLoggedIn(user)} />
-              </RequireAuth>
-            }
-          />
+              <Route
+                path="/register"
+                element={
+                  <AlreadyLogged user={user}>
+                    <RegistrationView />
+                  </AlreadyLogged>
+                }
+              />
 
-          <Route
-            path="/movies/:id"
-            element={
-              <RequireAuth user={user}>
-                <MovieInfos onLoggedIn={(user) => this.onLoggedIn(user)} />
-              </RequireAuth>
-            }
-          />
+              <Route
+                path="/"
+                element={
+                  <RequireAuth user={user}>
+                    <MoviesList />
+                  </RequireAuth>
+                }
+              />
 
-          <Route
-            path={`/users/${username}`}
-            element={
-              <RequireAuth user={user}>
-                <ProfileView />
-              </RequireAuth>
-            }
-          />
+              <Route
+                path="/movies/:id"
+                element={
+                  <RequireAuth>
+                    <MovieInfos onLoggedIn={(user) => this.onLoggedIn(user)} />
+                  </RequireAuth>
+                }
+              />
 
-          <Route
-            path="/genre/:name"
-            element={
-              <RequireAuth user={user}>
-                <GenreView onGoBackButtonClick={() => window.history.back()} />
-              </RequireAuth>
-            }
-          />
+              <Route
+                path={`/users/${username}`}
+                element={
+                  <RequireAuth>
+                    <ProfileView />
+                  </RequireAuth>
+                }
+              />
 
-          <Route
-            path="/directors/:name"
-            element={
-              <RequireAuth user={user}>
-                <DirectorView
-                  onGoBackButtonClick={() => window.history.back()}
-                />
-              </RequireAuth>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+              <Route
+                path="/genre/:name"
+                element={
+                  <RequireAuth>
+                    <GenreView
+                      onGoBackButtonClick={() => window.history.back()}
+                    />
+                  </RequireAuth>
+                }
+              />
+
+              <Route
+                path="/directors/:name"
+                element={
+                  <RequireAuth>
+                    <DirectorView
+                      onGoBackButtonClick={() => window.history.back()}
+                    />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </Container>
+      </>
     );
   }
-}
-
-function RequireAuth({ user, accessToken, children }) {
-  /**
-   * Reference: https://reactrouter.com/docs/en/v6/examples/auth
-   * 1. Verify if user is logged in
-   * 2. If user is not authenticated it navigates to /login if
-   *    * The current route is not a public route
-   * 3. If user is authenticated then render children
-   */
-
-  console.log(accessToken, "test");
-  const location = useLocation();
-
-  if (!accessToken && !user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
 }
 
 function AlreadyLogged({ user, accessToken, children }) {

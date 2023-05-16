@@ -1,64 +1,17 @@
 .movie-view {
-  margin-top: 0.5rem;
-  width: 400px;
-  background-color: rgb(25, 25, 25);
-  color: whitesmoke;
+  margin-top: 1rem;
 }
 
 .movie-view__img {
-  height: 550px;
+  max-width: 100%;
+  max-height: 400px;
   object-fit: cover;
-  border-radius: 1rem;
-  overflow: hidden;
-  border: 2px solid transparent;
   object-position: center top;
 }
 
-.movie-view__title {
-  font-size: large;
-  font-weight: bold;
-}
-
-.movie-view__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.movie-view__body-item {
-  background-color: rgb(25, 25, 25);
-  color: whitesmoke;
-}
-
-.movie-view__description {
-  background-color: rgb(25, 25, 25);
-  color: whitesmoke;
-  padding-top: 1rem;
-}
-
-.movie-view__body-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-}
-
-.movie-view__body-button {
-  background-color: orange;
-  border: 2px solid transparent;
-  transition: all 150ms ease-in-out;
-}
-
-.movie-view__body-button:hover {
-  background-color: rgba(255, 166, 0, 0.761);
-  transform: scale(0.98, 0.98);
-  border: 2px solid transparent;
-}
-
-.movie-view__link {
-  color: whitesmoke;
-}
-
-.movie-view__link:hover {
-  color: orange;
+@media screen and (min-width: 768px) {
+  .movie-view__img {
+    width: 100%;
+    max-height: unset;
+  }
 }

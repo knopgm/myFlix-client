@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Stack } from "react-bootstrap";
 import { UserInfo } from "./user-info";
 import axios from "axios";
 import { FavoriteMovies } from "./favorite-movies";
@@ -10,13 +10,6 @@ import { setUser } from "../../actions/actions";
 import "./profile-view.css";
 
 class ProfileView extends React.Component {
-  constructor() {
-    super();
-    // this.state = {
-    //   userData: null,
-    // };
-  }
-
   componentDidMount() {
     this.getUserByUsername();
   }
@@ -55,10 +48,10 @@ class ProfileView extends React.Component {
     }
 
     return (
-      <Container>
-        <Row className="justify-content-md-center">
+      <Stack gap={4}>
+        <Row className="g-2 justify-content-md-center">
           <Col xs={12} sm={4}>
-            <Card>
+            <Card className="user_info">
               <Card.Body>
                 <UserInfo
                   username={user.username}
@@ -68,6 +61,7 @@ class ProfileView extends React.Component {
               </Card.Body>
             </Card>
           </Col>
+
           <Col xs={12} sm={8}>
             <Card>
               <Card.Body>
@@ -82,18 +76,17 @@ class ProfileView extends React.Component {
               </Card.Body>
             </Card>
           </Col>
-          <Col>
-            <FavoriteMovies
-              favoriteMoviesList={user.favoriteMovies}
-              movies={movies}
-              username={user.username}
-              onFavoriteMovieRemoved={() => {
-                this.getUserByUsername();
-              }}
-            />
-          </Col>
         </Row>
-      </Container>
+
+        <FavoriteMovies
+          favoriteMoviesList={user.favoriteMovies}
+          movies={movies}
+          username={user.username}
+          onFavoriteMovieRemoved={() => {
+            this.getUserByUsername();
+          }}
+        />
+      </Stack>
     );
   }
 }

@@ -5,9 +5,12 @@ import Form from "react-bootstrap/Form";
 
 import { setFilter } from "../../actions/actions";
 
+import "./visibility-filter-input.css";
+
 function VisibilityFilterInput(props) {
   return (
     <Form.Control
+      className="filter .form-white .form-outline"
       onChange={(e) => props.setFilter(e.target.value)}
       value={props.visibilityFilter}
       placeholder="filter"

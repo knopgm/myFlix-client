@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Figure, Button, Row, Col } from "react-bootstrap";
+import { Container, Figure, Button, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./favorite-movies.css";
@@ -50,13 +50,14 @@ export function FavoriteMovies({
   };
 
   return (
-    <>
-      <Row className="favorite-movies">
+    <div>
+      <Row className="favorite-movies_title">
         <Col xs={12}>
           <h2>Favorite Movies</h2>
         </Col>
       </Row>
-      <Row className="favorite-movies__list">
+
+      <Row className="favorite-movies__list g-4">
         {filteredMovies.map((movie) => {
           const { _id, imageUrl, title } = movie;
 
@@ -65,11 +66,31 @@ export function FavoriteMovies({
               className="favorite-movie__card"
               key={_id}
               xs={12}
-              md={6}
+              md={4}
               lg={4}
-              style={{ marginBottom: "20px" }}
             >
-              <Figure className="favorite-movie__img-card">
+              <Card className="favorite-movie-card">
+                <Card.Img
+                  className="favorite-movie-card__img"
+                  variant="top"
+                  src={imageUrl}
+                />
+                <Card.ImgOverlay className="favorite-movie-card__overlay">
+                  <Card.Title className="favorite-movie-card__title">
+                    {title}
+                  </Card.Title>
+                  <Card.Footer>
+                    <Button
+                      className="favorite-movie__btn-remove"
+                      variant="secondary"
+                      onClick={() => removeFav(_id, username)}
+                    >
+                      Remove
+                    </Button>
+                  </Card.Footer>
+                </Card.ImgOverlay>
+              </Card>
+              {/* <Figure className="favorite-movie__img-card">
                 <Link
                   className="favorite-movie__img-title-wrapper"
                   to={`/movies/${_id}`}
@@ -93,11 +114,11 @@ export function FavoriteMovies({
                 >
                   Remove
                 </Button>
-              </Link>
+              </Link> */}
             </Col>
           );
         })}
       </Row>
-    </>
+    </div>
   );
 }

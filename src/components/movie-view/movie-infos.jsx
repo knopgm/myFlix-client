@@ -29,16 +29,16 @@ function MovieInfos(props) {
     });
 
     if (moviesList.includes(movie)) {
-      console.log("already favorited movie");
+      // return;
     }
 
     const url = `https://myflix-api-gkm.herokuapp.com/users/${user.username}/movies/${movie._id}`;
     axios
       .post(url, {}, { headers: { Authorization: `Bearer ${accessToken}` } })
       .then((response) => {
-        // const data = response.data;
-        // console.log(data);
-        this.props.setMoviesList(response.data);
+        const data = response.data;
+        console.log(data);
+        // props.setMoviesList(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -59,13 +59,11 @@ function MovieInfos(props) {
   const movie = findMovie(movies);
 
   return (
-    <Col md={8}>
-      <MovieView
-        movie={movie}
-        onBackClick={() => window.history.back()}
-        addToFavMovies={() => handleFavoritedMovie(movie)}
-      />
-    </Col>
+    <MovieView
+      movie={movie}
+      onBackClick={() => window.history.back()}
+      addToFavMovies={() => handleFavoritedMovie(movie)}
+    />
   );
 }
 
