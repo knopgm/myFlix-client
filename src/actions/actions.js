@@ -18,7 +18,7 @@ export function setFilter(value) {
   return { type: SET_FILTER, value };
 }
 
-export function setUser(value) {
+export function setUser({ _id, birthday, username, email, favoriteMovies }) {
   console.log("SET_USER action triggered");
-  return { type: SET_USER, value };
+  return { type: SET_USER, _id, birthday, username, email, favoriteMovies };
 }

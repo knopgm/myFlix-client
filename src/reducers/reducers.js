@@ -41,8 +41,9 @@ function moviesList(state = [], action) {
 function user(state = null, action) {
   switch (action.type) {
     case SET_USER:
+      const { _id, birthday, username, email, favoriteMovies } = action;
       console.log("SET_USER reducer reached", { action });
-      return action.value;
+      return { _id, birthday, username, email, favoriteMovies };
     default:
       return state;
   }
