@@ -29,11 +29,9 @@ class ProfileView extends React.Component {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
-        // Assign the result to the state
-        // this.setState({
-        //   userData: response.data,
-        // });
-        this.props.setUser(response.data);
+        const { _id, birthday, username, email, favoriteMovies } =
+          response.data;
+        this.props.setUser({ _id, birthday, username, email, favoriteMovies });
       })
       .catch(function (error) {
         console.log(error);
@@ -48,7 +46,7 @@ class ProfileView extends React.Component {
     }
 
     return (
-      <Stack gap={4}>
+      <Stack gap={4} className="pb-4">
         <Row className="g-2 justify-content-md-center">
           <Col xs={12} sm={4}>
             <Card className="user_info">
@@ -90,6 +88,7 @@ class ProfileView extends React.Component {
     );
   }
 }
+
 let mapStateToProps = (state) => {
   return {
     movies: state.movies,

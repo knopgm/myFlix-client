@@ -1,3 +1,7 @@
 .justify-content-md-center {
   margin-top: 0.5rem;
 }
+
+.user_info {
+  height: 100%;
+}

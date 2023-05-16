@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
+
+import "./user-info.css";
 
 export function UserInfo({ username, email, birthday }) {
   const onDeletingUserGoTo = () => {
@@ -28,14 +30,22 @@ export function UserInfo({ username, email, birthday }) {
   };
 
   return (
-    <>
-      <h4>Your Infos</h4>
-      <p>Name: {username}</p>
-      <p>e-mail: {email}</p>
-      <p>Birthday: {birthday}</p>
-      <Button variant="secondary" onClick={() => handlingDeletedUser(username)}>
-        Delete Account
-      </Button>
-    </>
+    <Stack className="user-info__wrapper">
+      <div>
+        <h4>Your Infos</h4>
+        <p>Name: {username}</p>
+        <p>e-mail: {email}</p>
+        <p>Birthday: {birthday}</p>
+      </div>
+
+      <div>
+        <Button
+          variant="secondary"
+          onClick={() => handlingDeletedUser(username)}
+        >
+          Delete Account
+        </Button>
+      </div>
+    </Stack>
   );
 }
