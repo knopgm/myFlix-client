@@ -57,7 +57,7 @@ export function FavoriteMovies({
         </Col>
       </Row>
 
-      <Row className="favorite-movies__list g-4">
+      <Row className="favorite-movies__list g-2">
         {filteredMovies.map((movie) => {
           const { _id, imageUrl, title } = movie;
 
@@ -65,9 +65,9 @@ export function FavoriteMovies({
             <Col
               className="favorite-movie__card"
               key={_id}
-              xs={12}
-              md={4}
-              lg={4}
+              xs={6}
+              md={3}
+              lg={2}
             >
               <Card className="favorite-movie-card">
                 <Card.Img
@@ -79,7 +79,7 @@ export function FavoriteMovies({
                   <Card.Title className="favorite-movie-card__title">
                     {title}
                   </Card.Title>
-                  <Card.Footer>
+                  <Card.Footer className="mx-auto">
                     <Button
                       className="favorite-movie__btn-remove"
                       variant="secondary"
@@ -90,31 +90,6 @@ export function FavoriteMovies({
                   </Card.Footer>
                 </Card.ImgOverlay>
               </Card>
-              {/* <Figure className="favorite-movie__img-card">
-                <Link
-                  className="favorite-movie__img-title-wrapper"
-                  to={`/movies/${_id}`}
-                >
-                  <Figure.Image
-                    className="favorite-movie__img"
-                    variant="top"
-                    src={imageUrl}
-                    alt={title}
-                  />
-                  <Figure.Caption className="favorite-movie__title">
-                    {title}
-                  </Figure.Caption>
-                </Link>
-              </Figure>
-              <Link to={`/users/${username}`}>
-                <Button
-                  className="favorite-movie__btn-remove"
-                  variant="secondary"
-                  onClick={() => removeFav(_id, username)}
-                >
-                  Remove
-                </Button>
-              </Link> */}
             </Col>
           );
         })}
