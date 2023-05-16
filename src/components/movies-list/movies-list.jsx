@@ -27,7 +27,7 @@ function MoviesList(props) {
 
       <Row className="g-2">
         {filteredMovies.map((m) => (
-          <Col xs={6} sm={4} lg={2} key={m._id}>
+          <Col xs={6} md={3} lg={2} key={m._id}>
             <MovieCard movie={m} />
           </Col>
         ))}
